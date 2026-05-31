@@ -1,12 +1,14 @@
 ---
-name: specdd-test
-description: Use when Cline needs to derive, add, update, or assess tests from active SpecDD specs.
+name: specdd-author
+description: Use when Cline needs to author or revise SpecDD `.sdd` specs in an existing SpecDD project.
 license: Apache-2.0
 ---
 
-# SpecDD Test
+# SpecDD Author
 
-Use this skill to connect SpecDD contracts to focused verification.
+Use this skill to create or improve specs in an existing SpecDD project.
+If `.specdd/bootstrap.md` is missing, use `specdd-adopt` first.
+Do not change implementation files unless the user explicitly asks for implementation work too.
 
 ## Skill Scope
 
@@ -44,18 +46,22 @@ Do not reread an entire chain just because a workflow phase changed. Reopen the 
 
 ## Workflow
 
-1. Identify test authority from the nearest relevant spec.
-2. Derive cases from applicable `Must`, `Scenario`, `Handles`, `Returns`, `Raises`, `Tasks`, and `Done when` entries.
-3. Prefer the smallest tests that prove the specified behavior.
-4. Run the relevant project test command when available.
+1. Ensure existing ancestor specs for the target area are known before adding new specs; reread the nearest relevant spec when exact wording matters.
+2. Identify the smallest useful spec boundary for the requested authoring work.
+3. When useful and available, consider consulting the `specdd-cli` skill for CLI-assisted spec discovery or linting; read or reread relevant governing specs directly when exact contract text is needed.
+4. Treat the user's explicit request as target scope, then create or edit `.sdd` files only inside authority granted by the active spec chain.
+5. Keep specs short, local, behavioral, and constraint-oriented.
 
-## Test Rules
+## Authoring Rules
 
-- Test observable behavior, not wording in the spec.
-- Cover forbidden behavior when it can regress silently.
-- Add regression tests for confirmed bugs.
-- Do not create broad test harnesses unless the spec or project convention requires them.
-- If the spec requires behavior but grants no clear test-file authority, ask before editing.
+- Prefer a root or nearest-area spec before adding narrow child specs.
+- Use path-based ownership and explicit `References`; do not imply authority from similar names or nearby files.
+- Include only sections that add useful local authority, constraints, behavior, tasks, or context.
+- Use `Can modify` or `Owns` to make write authority discoverable.
+- Do not copy the full SpecDD framework rules into project specs.
+- Do not turn uncertain observations into durable contracts.
+- If write authority, ownership, public behavior, or security scope is unclear, stop and ask.
 
-Report which spec entries each test covers and any specified behavior that still
-lacks verification.
+## Reporting
+
+Report the bootstrap files and specs used, specs created or changed, intended governing scope, and any unresolved authoring decisions.
